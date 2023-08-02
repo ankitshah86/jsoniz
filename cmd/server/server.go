@@ -3,11 +3,14 @@ package server
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	jsonHelper "github.com/ankitshah86/jsoniz/internal/helpers"
 )
 
 // StartServer starts the server
@@ -18,6 +21,8 @@ func StartServer() {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
+
+	http.HandleFunc("/", handleQuery)
 
 	// Create a channel to listen for OS signals
 	signalChan := make(chan os.Signal, 1)
@@ -32,7 +37,11 @@ func StartServer() {
 	}()
 
 	// Block until we receive OS signal
-	<-signalChan
+	if <-signalChan == syscall.SIGINT {
+		fmt.Println("Received SIGINT")
+	} else {
+		fmt.Println("Received SIGTERM")
+	}
 
 	// Create a deadline to wait for
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -45,4 +54,27 @@ func StartServer() {
 	fmt.Println("Shutting down")
 	os.Exit(0)
 
+}
+
+func handleQuery(w http.ResponseWriter, r *http.Request) {
+
+	// Check if the request method is POST
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Read the request body
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Error reading request body", http.StatusInternalServerError)
+		return
+	}
+
+	if !jsonHelper.ValidateJson(string(body)) {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
