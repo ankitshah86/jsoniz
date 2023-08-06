@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -31,7 +33,14 @@ func GetEnvString(key string, defaultValue string) string {
 func GetEnvInt(key string, defaultValue int) int {
 	osValue := os.Getenv(key)
 	if osValue != "" {
-		return defaultValue
+		//try to convert to int
+		val, err := strconv.Atoi(osValue)
+		if err != nil {
+			fmt.Println("Could not convert to int")
+			return defaultValue
+		} else {
+			return val
+		}
 	}
 
 	return defaultValue
