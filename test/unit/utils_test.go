@@ -1,8 +1,10 @@
-package utils
+package unit_test
 
 import (
 	"os"
 	"testing"
+
+	"github.com/ankitshah86/jsoniz/internal/utils"
 )
 
 func TestGetEnvBool(t *testing.T) {
@@ -62,7 +64,7 @@ func TestGetEnvBool(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GetEnvBool(tt.args.key, tt.args.defaultValue); got != tt.want {
+			if got := utils.GetEnvBool(tt.args.key, tt.args.defaultValue); got != tt.want {
 				t.Errorf("GetEnvBool() = %v, want %v", got, tt.want)
 			}
 		})
@@ -126,7 +128,7 @@ func TestGetEnvString(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GetEnvString(tt.args.key, tt.args.defaultValue); got != tt.want {
+			if got := utils.GetEnvString(tt.args.key, tt.args.defaultValue); got != tt.want {
 				t.Errorf("GetEnvString() = %v, want %v", got, tt.want)
 			}
 		})
@@ -190,7 +192,7 @@ func TestGetEnvInt(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GetEnvInt(tt.args.key, tt.args.defaultValue); got != tt.want {
+			if got := utils.GetEnvInt(tt.args.key, tt.args.defaultValue); got != tt.want {
 				t.Errorf("GetEnvInt() = %v, want %v", got, tt.want)
 			}
 		})

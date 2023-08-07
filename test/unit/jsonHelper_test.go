@@ -1,7 +1,9 @@
-package helpers
+package unit_test
 
 import (
 	"testing"
+
+	"github.com/ankitshah86/jsoniz/internal/helpers"
 )
 
 func TestValidateJson(t *testing.T) {
@@ -72,7 +74,7 @@ func TestValidateJson(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := ValidateJson(tt.input)
+			result := helpers.ValidateJson(tt.input)
 			if result != tt.expected {
 				t.Errorf("ValidateJson(%q) returned %v, expected %v", tt.input, result, tt.expected)
 			}
