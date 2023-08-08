@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/ankitshah86/jsoniz/core"
 	jsonHelper "github.com/ankitshah86/jsoniz/internal/helpers"
 )
 
@@ -71,10 +72,22 @@ func handleQuery(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !jsonHelper.ValidateJson(string(body)) {
+	// convert body to string
+	req := string(body)
+
+	if !jsonHelper.ValidateJson(req) {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
 	}
+
+	// handle the incoming request
+	_, err = core.ParseRequest(req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println("Request received", req)
 
 	w.WriteHeader(http.StatusOK)
 }
