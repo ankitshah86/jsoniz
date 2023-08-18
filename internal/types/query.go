@@ -7,18 +7,20 @@ type ConsistencyLevel string
 type Operator string
 
 const (
-	SQL      RequestType      = "SQL"
-	NoSQL    RequestType      = "NoSQL"
-	SELECT   OperationType    = "SELECT"
-	INSERT   OperationType    = "INSERT"
-	UPDATE   OperationType    = "UPDATE"
-	DELETE   OperationType    = "DELETE"
-	QUERY    OperationType    = "QUERY"
-	INNER    JoinType         = "INNER"
-	LEFT     JoinType         = "LEFT"
-	RIGHT    JoinType         = "RIGHT"
-	STRONG   ConsistencyLevel = "STRONG"
-	EVENTUAL ConsistencyLevel = "EVENTUAL"
+	SQL               RequestType      = "SQL"
+	NoSQL             RequestType      = "NoSQL"
+	SELECT            OperationType    = "SELECT"
+	INSERT            OperationType    = "INSERT"
+	UPDATE            OperationType    = "UPDATE"
+	DELETE            OperationType    = "DELETE"
+	QUERY             OperationType    = "QUERY"
+	CREATE_DATABASE   OperationType    = "CREATE_DATABASE"
+	CREATE_COLLECTION OperationType    = "CREATE_COLLECTION"
+	INNER             JoinType         = "INNER"
+	LEFT              JoinType         = "LEFT"
+	RIGHT             JoinType         = "RIGHT"
+	STRONG            ConsistencyLevel = "STRONG"
+	EVENTUAL          ConsistencyLevel = "EVENTUAL"
 )
 
 type Request struct {
